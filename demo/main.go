@@ -1,11 +1,18 @@
-package demo
+package main
 
 import (
-  "github.com/EngoEngine/engo"
-  "github.com/EngoEngine/engo/common"
+	"github.com/EngoEngine/ecs"
+	"github.com/EngoEngine/engo"
+	"github.com/EngoEngine/engo/common"
 
-  "github.com/Noofbiz/pixelshader"
+	"github.com/Noofbiz/pixelshader"
 )
+
+type sprite struct {
+	ecs.BasicEntity
+	common.RenderComponent
+	common.SpaceComponent
+}
 
 type demoScene struct{}
 
@@ -28,7 +35,7 @@ func (*demoScene) Setup(u engo.Updater) {
 	w.AddEntity(&bg)
 }
 
-pShader := &pixelshader.PixelShader{FragShader: `
+var pShader = &pixelshader.PixelShader{FragShader: `
   #ifdef GL_ES
   #define LOWP lowp
   precision mediump float;
@@ -47,8 +54,8 @@ pShader := &pixelshader.PixelShader{FragShader: `
 
 func main() {
 	engo.Run(engo.RunOptions{
-		Title:                      "Pixel Shader Demo!",
-		Width:                      512, //16
-		Height:                     288, //9
+		Title:  "Pixel Shader Demo!",
+		Width:  512, //16
+		Height: 288, //9
 	}, &demoScene{})
 }

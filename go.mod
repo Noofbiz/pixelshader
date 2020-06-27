@@ -1,4 +1,4 @@
-module pixelshader
+module github.com/Noofbiz/pixelshader
 
 go 1.14
 
