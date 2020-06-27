@@ -15,25 +15,8 @@ void main()
 }
 `
 
-const frag = `
-#ifdef GL_ES
-#define LOWP lowp
-precision mediump float;
-#else
-#define LOWP
-#endif
-uniform vec2 u_resolution;  // Canvas size (width,height)
-uniform vec2 u_mouse;       // mouse position in screen pixels
-uniform float u_time;       // Time in seconds since load
-void main()
-{
-  vec2 st = gl_FragCoord.xy/u_resolution;
-	gl_FragColor = vec4(st.x,st.y,0.0,1.0);
-}
-`
-
 type PixelShader struct {
-  FragShader string
+	FragShader string
 
 	program                                         *gl.Program
 	vertices                                        []float32
