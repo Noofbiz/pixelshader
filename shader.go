@@ -29,7 +29,7 @@ func (s *PixelShader) Setup(w *ecs.World) error {
 	s.vertices = []float32{-1, -1, -1, 1, 1, -1, 1, 1, -1, 1, 1, -1}
 	s.buffer = engo.Gl.CreateBuffer()
 	var err error
-	s.program, err = common.LoadShader(vert, frag)
+	s.program, err = common.LoadShader(vert, s.FragShader)
 	if err != nil {
 		return err
 	}
