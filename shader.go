@@ -60,7 +60,7 @@ func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceCo
 
 func (s *PixelShader) Post() {
 	// Cleanup
-	engo.Gl.DisableVertexAttribArray(s.coordinates)
+	//engo.Gl.DisableVertexAttribArray(s.coordinates)
 
 	engo.Gl.BindBuffer(engo.Gl.ARRAY_BUFFER, nil)
 
