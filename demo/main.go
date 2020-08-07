@@ -20,6 +20,8 @@ func (*demoScene) Type() string { return "demo scene" }
 
 func (*demoScene) Preload() {
 	common.AddShader(pShader)
+
+	engo.Files.Load("icon.png")
 }
 
 func (*demoScene) Setup(u engo.Updater) {
@@ -33,6 +35,17 @@ func (*demoScene) Setup(u engo.Updater) {
 	bg.Drawable = pixelshader.PixelRegion{}
 	bg.SetShader(pShader)
 	w.AddEntity(&bg)
+
+	rect := sprite{BasicEntity: ecs.NewBasic()}
+	rect.Drawable = common.Rectangle{}
+	rect.Width = 50
+	rect.Height = 50
+	rect.SetCenter(engo.Point{X: 100, Y: 100})
+	w.AddEntity(&rect)
+
+	hero := sprite{BasicEntity: ecs.NewBasic()}
+	hero.Drawable, _ = common.LoadedSprite("icon.png")
+	w.AddEntity(&hero)
 }
 
 var pShader = &pixelshader.PixelShader{FragShader: `
