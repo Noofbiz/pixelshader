@@ -74,12 +74,11 @@ func (s *PixelShader) Pre() {
 	engo.Gl.EnableVertexAttribArray(s.coordinates)
 
 	s.projectionMatrix.Identity()
-	// if engo.ScaleOnResize() {
-	// 	s.projectionMatrix.Scale(1/(engo.GameWidth()/2), 1/(-engo.GameHeight()/2))
-	// } else {
-	// 	s.projectionMatrix.Scale(1/(engo.CanvasWidth()/(2*engo.CanvasScale())), 1/(-engo.CanvasHeight()/(2*engo.CanvasScale())))
-	// }
-	s.projectionMatrix.Scale(1/(engo.CanvasWidth()/(2*engo.CanvasScale())), 1/(-engo.CanvasHeight()/(2*engo.CanvasScale())))
+	if engo.ScaleOnResize() {
+		s.projectionMatrix.Scale(1/(engo.GameWidth()/2), 1/(-engo.GameHeight()/2))
+	} else {
+		s.projectionMatrix.Scale(1/(engo.CanvasWidth()/(2*engo.CanvasScale())), 1/(-engo.CanvasHeight()/(2*engo.CanvasScale())))
+	}
 
 	s.viewMatrix.Identity()
 	if s.cameraEnabled {
@@ -95,12 +94,7 @@ func (s *PixelShader) Pre() {
 }
 
 func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceComponent) {
-	if engo.ScaleOnResize() {
-		engo.Gl.Uniform2f(s.resolutionLocation, engo.GameWidth(), engo.GameHeight())
-	} else {
-		engo.Gl.Uniform2f(s.resolutionLocation, engo.CanvasWidth(), engo.CanvasHeight())
-	}
-
+	engo.Gl.Uniform2f(s.resolutionLocation, space.Width, space.Height)
 	engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X, engo.Input.Mouse.Y)
 	engo.Gl.Uniform1f(s.timeLocation, engo.Time.Time())
 
@@ -109,6 +103,7 @@ func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceCo
 		s.modelMatrix.Rotate(space.Rotation)
 	}
 	s.modelMatrix.Scale(render.Scale.X, render.Scale.Y)
+	s.modelMatrix.Scale(space.Width, space.Height)
 
 	engo.Gl.UniformMatrix3fv(s.matrixModel, false, s.modelMatrix.Val[:])
 
