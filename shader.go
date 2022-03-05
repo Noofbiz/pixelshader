@@ -26,7 +26,9 @@ type PixelShader struct {
 	vertices                                        []float32
 	buffer                                          *gl.Buffer
 	coordinates                                     int
+	texCoords                                       int
 	resolutionLocation, mouseLocation, timeLocation *gl.UniformLocation
+	tex0Location, tex1Location, tex2Location        *gl.UniformLocation
 
 	matrixProjection *gl.UniformLocation
 	matrixView       *gl.UniformLocation
@@ -51,6 +53,9 @@ func (s *PixelShader) Setup(w *ecs.World) error {
 	s.resolutionLocation = engo.Gl.GetUniformLocation(s.program, "u_resolution")
 	s.mouseLocation = engo.Gl.GetUniformLocation(s.program, "u_mouse")
 	s.timeLocation = engo.Gl.GetUniformLocation(s.program, "u_time")
+	s.tex0Location = engo.Gl.GetUniformLocation(s.program, "u_tex0")
+	s.tex1Location = engo.Gl.GetUniformLocation(s.program, "u_tex1")
+	s.tex2Location = engo.Gl.GetUniformLocation(s.program, "u_tex2")
 	s.coordinates = engo.Gl.GetAttribLocation(s.program, "position")
 
 	s.matrixProjection = engo.Gl.GetUniformLocation(s.program, "matrixProjection")
@@ -94,16 +99,46 @@ func (s *PixelShader) Pre() {
 }
 
 func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceComponent) {
-	engo.Gl.Uniform2f(s.resolutionLocation, space.Width, space.Height)
+	engo.Gl.Uniform2f(s.resolutionLocation, engo.CanvasWidth(), engo.CanvasHeight())
 	engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X, engo.Input.Mouse.Y)
 	engo.Gl.Uniform1f(s.timeLocation, engo.Time.Time())
+
+	pixelRegion := render.Drawable.(PixelRegion)
+	if pixelRegion.Tex0 != nil {
+		engo.Gl.ActiveTexture(engo.Gl.TEXTURE0)
+		engo.Gl.BindTexture(engo.Gl.TEXTURE_2D, pixelRegion.Tex0.Texture())
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_WRAP_S, engo.Gl.REPEAT)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_WRAP_T, engo.Gl.REPEAT)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_MIN_FILTER, engo.Gl.NEAREST)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_MAG_FILTER, engo.Gl.NEAREST)
+		engo.Gl.Uniform1i(s.tex0Location, 0)
+	}
+	if pixelRegion.Tex1 != nil {
+		engo.Gl.ActiveTexture(engo.Gl.TEXTURE1)
+		engo.Gl.BindTexture(engo.Gl.TEXTURE_2D, pixelRegion.Tex1.Texture())
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_WRAP_S, engo.Gl.REPEAT)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_WRAP_T, engo.Gl.REPEAT)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_MIN_FILTER, engo.Gl.NEAREST)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_MAG_FILTER, engo.Gl.NEAREST)
+		engo.Gl.Uniform1i(s.tex1Location, 1)
+	}
+	if pixelRegion.Tex2 != nil {
+		engo.Gl.ActiveTexture(engo.Gl.TEXTURE2)
+		engo.Gl.BindTexture(engo.Gl.TEXTURE_2D, pixelRegion.Tex2.Texture())
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_WRAP_S, engo.Gl.REPEAT)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_WRAP_T, engo.Gl.REPEAT)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_MIN_FILTER, engo.Gl.NEAREST)
+		engo.Gl.TexParameteri(engo.Gl.TEXTURE_2D, engo.Gl.TEXTURE_MAG_FILTER, engo.Gl.NEAREST)
+		engo.Gl.Uniform1i(s.tex2Location, 2)
+	}
+	engo.Gl.ActiveTexture(engo.Gl.TEXTURE0)
 
 	s.modelMatrix.Identity().Scale(engo.GetGlobalScale().X, engo.GetGlobalScale().Y).Translate(space.Position.X, space.Position.Y)
 	if space.Rotation != 0 {
 		s.modelMatrix.Rotate(space.Rotation)
 	}
 	s.modelMatrix.Scale(render.Scale.X, render.Scale.Y)
-	s.modelMatrix.Scale(space.Width, space.Height)
+	s.modelMatrix.Scale(engo.CanvasWidth(), engo.CanvasHeight())
 
 	engo.Gl.UniformMatrix3fv(s.matrixModel, false, s.modelMatrix.Val[:])
 
@@ -114,6 +149,7 @@ func (s *PixelShader) Post() {
 	// Cleanup
 	engo.Gl.DisableVertexAttribArray(s.coordinates)
 
+	engo.Gl.BindTexture(engo.Gl.TEXTURE_2D, nil)
 	engo.Gl.BindBuffer(engo.Gl.ARRAY_BUFFER, nil)
 
 	engo.Gl.Disable(engo.Gl.BLEND)
