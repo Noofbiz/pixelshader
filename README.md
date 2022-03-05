@@ -12,4 +12,7 @@ create an issue and I can add it. The uniforms are the following:
 uniform vec2 u_resolution;  // Canvas size (width,height)
 uniform vec2 u_mouse;       // mouse position in screen pixels
 uniform float u_time;       // Time in seconds since load
+uniform sampler2D u_tex0;   // Drawable Tex0
+uniform sampler2D u_tex1;   // Drawable Tex1
+uniform sampler2D u_tex2;   // Drawable Tex2
 ```
