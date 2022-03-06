@@ -100,7 +100,7 @@ func (s *PixelShader) Pre() {
 
 func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceComponent) {
 	engo.Gl.Uniform2f(s.resolutionLocation, engo.CanvasWidth(), engo.CanvasHeight())
-	engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X, engo.Input.Mouse.Y)
+	engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X*(engo.CanvasWidth()/engo.WindowWidth()), engo.CanvasWidth()-engo.Input.Mouse.Y*(engo.CanvasWidth()/engo.WindowWidth()))
 	engo.Gl.Uniform1f(s.timeLocation, engo.Time.Time())
 
 	pixelRegion := render.Drawable.(PixelRegion)
