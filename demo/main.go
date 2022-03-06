@@ -21,8 +21,6 @@ type demoScene struct{}
 func (*demoScene) Type() string { return "demo scene" }
 
 func (*demoScene) Preload() {
-	common.AddShader(pShader)
-
 	engo.Files.Load("icon.png")
 	engo.Files.Load("moon.png")
 	engo.Files.Load("rainbow.png")
@@ -107,6 +105,7 @@ var pShader = &pixelshader.PixelShader{FragShader: `
   `}
 
 func main() {
+	common.AddShader(pShader)
 	engo.Run(engo.RunOptions{
 		Title:  "Pixel Shader Demo!",
 		Width:  512, //16

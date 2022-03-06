@@ -15,7 +15,7 @@ type PixelRegion struct {
 	// vec2 p = gl_FragCoord.xy/u_resolution.xy;
 	// the coordinate positions are
 	// vec2 texPos = vec2(p.x, -p.y);
-	Tex0, Tex1, Tex2 common.Drawable
+	Tex0, Tex1, Tex2 *common.Texture
 }
 
 func (p PixelRegion) Texture() *gl.Texture {
