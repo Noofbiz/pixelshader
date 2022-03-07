@@ -100,7 +100,12 @@ func (s *PixelShader) Pre() {
 
 func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceComponent) {
 	engo.Gl.Uniform2f(s.resolutionLocation, engo.CanvasWidth(), engo.CanvasHeight())
-	engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X*(engo.CanvasWidth()/engo.GameWidth()), engo.CanvasHeight()-engo.Input.Mouse.Y*(engo.CanvasHeight()/engo.GameHeight()))
+	switch engo.CurrentBackEnd {
+	case engo.BackEndGLFW, engo.BackEndSDL, engo.BackEndVulkan:
+		engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X*(engo.CanvasWidth()/engo.WindowWidth()), engo.CanvasHeight()-engo.Input.Mouse.Y*(engo.CanvasHeight()/engo.WindowHeight()))
+	case engo.BackEndMobile, engo.BackEndWeb:
+		engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X, engo.CanvasHeight()-engo.Input.Mouse.Y)
+	}
 	engo.Gl.Uniform1f(s.timeLocation, engo.Time.Time())
 
 	pixelRegion := render.Drawable.(PixelRegion)
