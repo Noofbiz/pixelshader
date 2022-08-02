@@ -102,7 +102,7 @@ func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceCo
 	engo.Gl.Uniform2f(s.resolutionLocation, engo.CanvasWidth(), engo.CanvasHeight())
 	switch engo.CurrentBackEnd {
 	case engo.BackEndGLFW, engo.BackEndSDL, engo.BackEndVulkan:
-		engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X*(engo.CanvasWidth()/engo.WindowWidth()), engo.CanvasHeight()-engo.Input.Mouse.Y*(engo.CanvasHeight()/engo.WindowHeight()))
+		engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X*engo.CanvasScale(), engo.CanvasHeight()-engo.Input.Mouse.Y*engo.CanvasScale())
 	case engo.BackEndMobile, engo.BackEndWeb:
 		engo.Gl.Uniform2f(s.mouseLocation, engo.Input.Mouse.X, engo.CanvasHeight()-engo.Input.Mouse.Y)
 	}
