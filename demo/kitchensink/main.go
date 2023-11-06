@@ -47,6 +47,8 @@ func (*demoScene) Setup(u engo.Updater) {
 	}
 	bg.SetShader(pShader)
 	bg.SetZIndex(0)
+	bg.Width = 512
+	bg.Height = 288
 	w.AddEntity(&bg)
 
 	rect := sprite{BasicEntity: ecs.NewBasic()}

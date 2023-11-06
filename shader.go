@@ -143,7 +143,7 @@ func (s *PixelShader) Draw(render *common.RenderComponent, space *common.SpaceCo
 		s.modelMatrix.Rotate(space.Rotation)
 	}
 	s.modelMatrix.Scale(render.Scale.X, render.Scale.Y)
-	s.modelMatrix.Scale(engo.CanvasWidth(), engo.CanvasHeight())
+	s.modelMatrix.Scale(space.Width, space.Height)
 
 	engo.Gl.UniformMatrix3fv(s.matrixModel, false, s.modelMatrix.Val[:])
 

@@ -4,17 +4,23 @@ go 1.14
 
 require (
 	github.com/EngoEngine/ecs v1.0.5
-	github.com/EngoEngine/engo v1.0.6
+	github.com/EngoEngine/engo v1.0.8
 	github.com/EngoEngine/gl v1.0.14
-	github.com/go-gl/gl v0.0.0-20211210172815-726fda9656d6 // indirect
-	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20211213063430-748e38ca8aec // indirect
+	github.com/go-gl/gl v0.0.0-20231021071112-07e5d0ea2e71 // indirect
+	github.com/go-gl/glfw/v3.3/glfw v0.0.0-20231102141658-eca20e8abded // indirect
+	github.com/go-gl/mathgl v1.1.0 // indirect
+	github.com/hajimehoshi/go-mp3 v0.3.4 // indirect
 	github.com/hajimehoshi/oto v1.0.1 // indirect
-	github.com/srwiley/oksvg v0.0.0-20220128195007-1f435e4c2b44 // indirect
-	github.com/srwiley/rasterx v0.0.0-20220128185129-2efea2b9ea41 // indirect
-	github.com/veandco/go-sdl2 v0.4.15 // indirect
-	golang.org/x/exp/shiny v0.0.0-20220303212507-bbda1eaf7a17 // indirect
-	golang.org/x/image v0.0.0-20220302094943-723b81ca9867 // indirect
-	golang.org/x/mobile v0.0.0-20220224134551-8a0a1e50732f // indirect
-	golang.org/x/net v0.0.0-20220225172249-27dd8689420f // indirect
-	golang.org/x/sys v0.0.0-20220227234510-4e6760a101f9 // indirect
+	github.com/jfreymuth/oggvorbis v1.0.5 // indirect
+	github.com/srwiley/oksvg v0.0.0-20221011165216-be6e8873101c // indirect
+	github.com/srwiley/rasterx v0.0.0-20220730225603-2ab79fcdd4ef // indirect
+	github.com/veandco/go-sdl2 v0.4.35 // indirect
+	github.com/vulkan-go/vulkan v0.0.0-20221209234627-c0a353ae26c8 // indirect
+	golang.org/x/exp v0.0.0-20210618142145-ffcf9a09ea36 // indirect
+	golang.org/x/exp/shiny v0.0.0-20231006140011-7918f672742d // indirect
+	golang.org/x/mobile v0.0.0-20231006135142-2b44d11868fe // indirect
+	golang.org/x/net v0.17.0 // indirect
+	golang.org/x/sys v0.14.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
+	gopkg.in/yaml.v2 v2.2.8 // indirect
 )
